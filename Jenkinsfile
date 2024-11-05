@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://your-git-repository-url.git'
+                git 'https://github.com/Harsh9305/CommunityClassroom-Git.git'
             }
         }
         
@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Run the Python script
-                    sh 'python3 calculate_average.py'
+                    sh 'python3 p1.py'
                 }
             }
         }
