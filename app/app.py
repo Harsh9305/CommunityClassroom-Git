@@ -67,11 +67,76 @@ def upload():
             resume_text = resume_text.lower()
 
             skills_courses = {
-                "python": ["Advanced Python Programming", "Machine Learning with Python"],
-                "java": ["Java for Enterprise Applications", "Spring Framework in Depth"],
-                "javascript": ["Full-Stack Web Development with React and Node.js", "Modern JavaScript Frameworks"],
-                "c++": ["Advanced C++ and Data Structures", "Game Development with C++"],
-                "sql": ["Advanced SQL for Data Analysis", "Database Design and Management"]
+                "python": [
+                    {
+                        "title": "Python for Everybody Specialization",
+                        "provider": "Coursera",
+                        "description": "A comprehensive introduction to Python, suitable for beginners.",
+                        "url": "https://www.coursera.org/specializations/python"
+                    },
+                    {
+                        "title": "The Complete Python Pro Bootcamp",
+                        "provider": "Udemy",
+                        "description": "Go from beginner to expert in Python 3. Learn to build real-world applications.",
+                        "url": "https://www.udemy.com/course/100-days-of-code/"
+                    }
+                ],
+                "java": [
+                    {
+                        "title": "Java Programming and Software Engineering Fundamentals",
+                        "provider": "Coursera",
+                        "description": "Learn to code in Java and improve your programming and software engineering skills.",
+                        "url": "https://www.coursera.org/specializations/java-programming"
+                    },
+                    {
+                        "title": "Java Programming Masterclass",
+                        "provider": "Udemy",
+                        "description": "A comprehensive Java course that covers everything you need to become a Java developer.",
+                        "url": "https://www.udemy.com/course/java-the-complete-java-developer-course/"
+                    }
+                ],
+                "javascript": [
+                    {
+                        "title": "JavaScript for Beginners Specialization",
+                        "provider": "Coursera",
+                        "description": "A specialization designed to take you from a beginner to a proficient JavaScript developer.",
+                        "url": "https://www.coursera.org/specializations/javascript-beginner"
+                    },
+                    {
+                        "title": "The Complete JavaScript Course 2024: From Zero to Expert!",
+                        "provider": "Udemy",
+                        "description": "The modern JavaScript course for everyone! Master JavaScript with projects, challenges and theory.",
+                        "url": "https://www.udemy.com/course/the-complete-javascript-course/"
+                    }
+                ],
+                "c++": [
+                    {
+                        "title": "C++ For C Programmers, Part A",
+                        "provider": "Coursera",
+                        "description": "This course is for experienced C programmers who want to program in C++.",
+                        "url": "https://www.coursera.org/learn/c-plus-plus-a"
+                    },
+                    {
+                        "title": "Beginning C++ Programming - From Beginner to Beyond",
+                        "provider": "Udemy",
+                        "description": "Obtain Modern C++ Object-Oriented Programming (OOP) and STL skills.",
+                        "url": "https://www.udemy.com/course/beginning-c-plus-plus-programming/"
+                    }
+                ],
+                "sql": [
+                    {
+                        "title": "SQL for Data Science",
+                        "provider": "Coursera",
+                        "description": "Learn SQL basics, data analysis, and how to work with databases.",
+                        "url": "https://www.coursera.org/learn/sql-for-data-science"
+                    },
+                    {
+                        "title": "The Complete SQL Bootcamp: Go from Zero to Hero",
+                        "provider": "Udemy",
+                        "description": "Learn to use SQL quickly and effectively with this course!",
+                        "url": "https://www.udemy.com/course/the-complete-sql-bootcamp/"
+                    }
+                ]
             }
 
             suggested_courses = []
@@ -79,15 +144,15 @@ def upload():
                 if skill in resume_text:
                     suggested_courses.extend(courses)
 
-            if suggested_courses:
-                suggestion = "Based on your resume, we suggest the following courses: " + ", ".join(suggested_courses)
-            else:
+            if not suggested_courses:
                 suggestion = "No specific skills detected to suggest courses. Consider adding more details to your resume."
+                return render_template('index.html', suggestion_text=suggestion)
 
         except Exception as e:
             suggestion = f"An error occurred while processing the resume: {e}"
+            return render_template('index.html', suggestion_text=suggestion)
 
-    return render_template('index.html', suggestion=suggestion)
+    return render_template('index.html', suggested_courses=suggested_courses)
 
 if __name__ == '__main__':
     app.run(debug=True)

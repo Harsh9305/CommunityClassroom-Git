@@ -3,44 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Scam Detector</title>
+    <title>Job Scam Detector & Upskilling Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
-        <h1>Job Scam Detector</h1>
+        <h1>Job Scam Detector & Upskilling Dashboard</h1>
     </header>
-    <main>
-        <h2>Job Scam Detection</h2>
-        <form action="/predict" method="post">
-            <input type="url" name="job_url" placeholder="Enter job posting URL..." style="width: 100%; padding: 10px; margin-bottom: 10px;">
-            <input type="submit" value="Analyze URL">
-        </form>
-        <p style="text-align: center; margin: 10px;">OR</p>
-        <form action="/predict" method="post">
-            <textarea name="job_description" rows="10" cols="50" placeholder="Enter job description..."></textarea>
-            <br>
-            <input type="submit" value="Predict">
-        </form>
+    <div class="container">
+        <div class="card">
+            <h2>Job Scam Detection</h2>
+            <form action="/predict" method="post">
+                <input type="url" name="job_url" placeholder="Enter job posting URL...">
+                <button type="submit">Analyze URL</button>
+            </form>
+            <p class="or-separator">OR</p>
+            <form action="/predict" method="post">
+                <textarea name="job_description" rows="8" placeholder="Paste job description here..."></textarea>
+                <button type="submit">Analyze Text</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Resume Analysis & Course Suggestions</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="resume">
+                <button type="submit">Analyze Resume</button>
+            </form>
+        </div>
+
         {% if prediction %}
+        <div class="card result-card">
+            <h2>Scam Prediction Result</h2>
             {% if job_url %}
-                <h3>Prediction Result for {{ job_url }}:</h3>
-            {% else %}
-                <h3>Prediction Result:</h3>
+            <p><strong>Analysis of:</strong> {{ job_url }}</p>
             {% endif %}
-            <p>{{ prediction }}</p>
+            <p class="prediction-text">{{ prediction }}</p>
+        </div>
         {% endif %}
-        <hr>
-        <h2>Resume Analysis</h2>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="resume">
-            <br>
-            <input type="submit" value="Upload">
-        </form>
-        {% if suggestion %}
-            <h3>Suggestion Result:</h3>
-            <p>{{ suggestion }}</p>
+
+        {% if suggested_courses or suggestion_text %}
+        <div class="results-container">
+            <h2>Recommended Courses</h2>
+            {% if suggestion_text %}
+                <div class="card result-card">
+                    <p>{{ suggestion_text }}</p>
+                </div>
+            {% else %}
+                {% for course in suggested_courses %}
+                <div class="card course-card">
+                    <h3>{{ course.title }}</h3>
+                    <p class="course-provider"><strong>Provider:</strong> {{ course.provider }}</p>
+                    <p>{{ course.description }}</p>
+                    <a href="{{ course.url }}" target="_blank" class="button">Go to Course</a>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
         {% endif %}
-    </main>
+    </div>
 </body>
 </html>
