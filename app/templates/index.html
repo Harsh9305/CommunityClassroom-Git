@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Scam Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Job Scam Detector</h1>
+    </header>
+    <main>
+        <h2>Job Scam Detection</h2>
+        <form action="/predict" method="post">
+            <input type="url" name="job_url" placeholder="Enter job posting URL..." style="width: 100%; padding: 10px; margin-bottom: 10px;">
+            <input type="submit" value="Analyze URL">
+        </form>
+        <p style="text-align: center; margin: 10px;">OR</p>
+        <form action="/predict" method="post">
+            <textarea name="job_description" rows="10" cols="50" placeholder="Enter job description..."></textarea>
+            <br>
+            <input type="submit" value="Predict">
+        </form>
+        {% if prediction %}
+            {% if job_url %}
+                <h3>Prediction Result for {{ job_url }}:</h3>
+            {% else %}
+                <h3>Prediction Result:</h3>
+            {% endif %}
+            <p>{{ prediction }}</p>
+        {% endif %}
+        <hr>
+        <h2>Resume Analysis</h2>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="resume">
+            <br>
+            <input type="submit" value="Upload">
+        </form>
+        {% if suggestion %}
+            <h3>Suggestion Result:</h3>
+            <p>{{ suggestion }}</p>
+        {% endif %}
+    </main>
+</body>
+</html>
