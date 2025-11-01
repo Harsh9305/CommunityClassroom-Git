@@ -1,12 +1,43 @@
 import requests
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, request
+import sqlite3
+import database
 
 app = Flask(__name__)
 
+# Initialize the database
+database.init_db()
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    conn = get_db_connection()
+
+    # Get metrics
+    total_scans = conn.execute('SELECT COUNT(*) FROM job_scans').fetchone()[0]
+    untrustworthy_scans = conn.execute('SELECT COUNT(*) FROM job_scans WHERE prediction = ?',
+                                       ("This job posting has a high probability of being a scam.",)).fetchone()[0]
+    trustworthy_scans = total_scans - untrustworthy_scans
+
+    # Get recent job scans
+    job_scans = conn.execute('SELECT * FROM job_scans ORDER BY scan_date DESC LIMIT 5').fetchall()
+
+    # Get recent resume scans
+    resume_scans = conn.execute('SELECT * FROM resume_scans ORDER BY scan_date DESC LIMIT 5').fetchall()
+
+    conn.close()
+
+    return render_template('index.html',
+                           total_scans=total_scans,
+                           untrustworthy_scans=untrustworthy_scans,
+                           trustworthy_scans=trustworthy_scans,
+                           job_scans=job_scans,
+                           resume_scans=resume_scans)
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -35,6 +66,13 @@ def predict():
         prediction = "This job posting has a high probability of being a scam."
     else:
         prediction = "This job posting is likely to be legitimate."
+
+    # Save the scan to the database
+    conn = get_db_connection()
+    conn.execute('INSERT INTO job_scans (content, prediction) VALUES (?, ?)',
+                 (job_description, prediction))
+    conn.commit()
+    conn.close()
 
     return render_template('index.html', prediction=prediction, job_url=job_url)
 
@@ -151,6 +189,12 @@ def upload():
         except Exception as e:
             suggestion = f"An error occurred while processing the resume: {e}"
             return render_template('index.html', suggestion_text=suggestion)
+
+    # Save the scan to the database
+    conn = get_db_connection()
+    conn.execute('INSERT INTO resume_scans (filename) VALUES (?)', (resume.filename,))
+    conn.commit()
+    conn.close()
 
     return render_template('index.html', suggested_courses=suggested_courses)
 

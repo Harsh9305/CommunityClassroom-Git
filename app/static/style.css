@@ -1,114 +1,171 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --background-color: #fff;
+    --text-color: #212529;
+    --card-bg-color: #fff;
+    --card-border-color: #e9ecef;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+[data-theme="dark"] {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #f8f9fa;
+    --background-color: #121212;
+    --text-color: #f8f9fa;
+    --card-bg-color: #1e1e1e;
+    --card-border-color: #343a40;
+}
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
     line-height: 1.6;
     margin: 0;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 header {
-    background: #fff;
-    color: #333;
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
     padding: 1rem 0;
     text-align: center;
-    border-bottom: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-bottom: 1px solid var(--card-border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 2rem auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
+}
+
+.dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 2rem;
 }
 
 .card {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    background-color: var(--card-bg-color);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--card-border-color);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
 .card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
-h2 {
+.card h2 {
     margin-top: 0;
-    color: #0056b3;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    text-align: center;
+}
+
+.metric-card {
+    background-color: var(--card-bg-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid var(--card-border-color);
+}
+
+.metric-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.metric-card p {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+table th, table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--card-border-color);
+}
+
+table th {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+}
+
+.button, button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover, button:hover {
+    background-color: #0056b3;
 }
 
 input[type="url"],
-textarea {
+textarea,
+input[type="file"] {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid var(--card-border-color);
+    border-radius: 5px;
+    background-color: var(--background-color);
+    color: var(--text-color);
     box-sizing: border-box;
-}
-
-button, .button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-button:hover, .button:hover {
-    background: #0056b3;
-}
-
-input[type="file"] {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.or-separator {
-    text-align: center;
-    margin: 1rem 0;
-    font-weight: bold;
-    color: #888;
-}
-
-.result-card {
-    grid-column: 1 / -1;
-    background-color: #e9f7ef;
-}
-
-.prediction-text {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #0056b3;
-}
-
-.results-container {
-    grid-column: 1 / -1;
-}
-
-.course-card {
     margin-bottom: 1rem;
-    border-left: 5px solid #007bff;
 }
 
-.course-provider {
-    font-style: italic;
-    color: #555;
+#theme-toggle {
+    background: none;
+    border: 1px solid var(--secondary-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
 }
