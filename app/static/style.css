@@ -1,171 +1,107 @@
-:root {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+html[data-theme='light'] {
+    --bg-color: #f8f9fa;
+    --sidebar-bg-color: #e9ecef;
+    --card-bg-color: #fff;
     --primary-color: #007bff;
-    --secondary-color: #6c757d;
     --success-color: #28a745;
     --danger-color: #dc3545;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
-    --background-color: #fff;
     --text-color: #212529;
-    --card-bg-color: #fff;
-    --card-border-color: #e9ecef;
-    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --text-secondary-color: #6c757d;
+    --border-color: #dee2e6;
 }
 
-[data-theme="dark"] {
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
+html[data-theme='dark'] {
+    --bg-color: #121212;
+    --sidebar-bg-color: #000;
+    --card-bg-color: #1e1e1e;
+    --primary-color: #1DB954; /* Spotify Green */
     --success-color: #28a745;
     --danger-color: #dc3545;
-    --light-color: #f8f9fa;
-    --dark-color: #f8f9fa;
-    --background-color: #121212;
-    --text-color: #f8f9fa;
-    --card-bg-color: #1e1e1e;
-    --card-border-color: #343a40;
+    --text-color: #fff;
+    --text-secondary-color: #b3b3b3;
+    --border-color: #282828;
+}
+
+:root {
+    --font-family: 'Inter', sans-serif;
 }
 
 body {
     font-family: var(--font-family);
-    background-color: var(--background-color);
+    background-color: var(--bg-color);
     color: var(--text-color);
-    line-height: 1.6;
     margin: 0;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg-color);
+    padding: 2rem 1rem;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+
+.sidebar nav a {
+    display: block;
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
     transition: background-color 0.3s, color 0.3s;
 }
 
-header {
+.sidebar nav a:hover, .sidebar nav a.active {
     background-color: var(--card-bg-color);
     color: var(--text-color);
-    padding: 1rem 0;
-    text-align: center;
-    border-bottom: 1px solid var(--card-border-color);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-.container {
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 2rem;
-}
-
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 2rem;
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    width: calc(100% - 250px);
 }
 
 .card {
     background-color: var(--card-bg-color);
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid var(--card-border-color);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
 }
 
 .card h2 {
+    color: var(--primary-color);
     margin-top: 0;
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
 }
 
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    text-align: center;
-}
-
-.metric-card {
-    background-color: var(--card-bg-color);
-    padding: 1.5rem;
-    border-radius: 10px;
-    border: 1px solid var(--card-border-color);
-}
-
-.metric-card h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
-    color: var(--secondary-color);
-}
-
-.metric-card p {
-    margin: 0;
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1.5rem;
-}
-
-table th, table td {
-    padding: 0.75rem;
-    text-align: left;
-    border-bottom: 1px solid var(--card-border-color);
-}
-
-table th {
-    background-color: var(--light-color);
-    color: var(--dark-color);
-}
-
-.button, button {
-    display: block;
-    width: 100%;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 5px;
+.button {
     background-color: var(--primary-color);
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.button:hover, button:hover {
-    background-color: #0056b3;
-}
-
-input[type="url"],
-textarea,
-input[type="file"] {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--card-border-color);
-    border-radius: 5px;
-    background-color: var(--background-color);
     color: var(--text-color);
-    box-sizing: border-box;
-    margin-bottom: 1rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
-#theme-toggle {
-    background: none;
-    border: 1px solid var(--secondary-color);
-    color: var(--text-color);
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
+.button:hover {
+    transform: scale(1.05);
 }
+
+/* Add styles for other elements as needed */

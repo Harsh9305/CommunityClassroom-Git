@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="card">
+        <h2>Scan Metrics</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>Total Scans</h3>
+                <p>{{ total_scans }}</p>
+            </div>
+            <div class="metric-card">
+                <h3>Trustworthy</h3>
+                <p style="color: var(--success-color);">{{ trustworthy_scans }}</p>
+            </div>
+            <div class="metric-card">
+                <h3>Untrustworthy</h3>
+                <p style="color: var(--danger-color);">{{ untrustworthy_scans }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Recent Job Scans</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Prediction</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scan in job_scans %}
+                <tr>
+                    <td>{{ scan.content[:100] }}...</td>
+                    <td>{{ scan.prediction }}</td>
+                    <td>{{ scan.scan_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Recent Resume Scans</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scan in resume_scans %}
+                <tr>
+                    <td>{{ scan.filename }}</td>
+                    <td>{{ scan.scan_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

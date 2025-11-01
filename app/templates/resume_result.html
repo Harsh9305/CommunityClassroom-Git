@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}Resume Analysis Result{% endblock %}
+{% block content %}
+    <div class="card">
+        <h2>Resume Analysis for {{ scan.filename }}</h2>
+        <p><strong>Desired Job Role:</strong> {{ job_role }}</p>
+        <p><strong>Skill Match:</strong> {{ "%.2f"|format(match_percentage) }}%</p>
+
+        <div class="skills-comparison">
+            <div class="skills-list">
+                <h3>Your Skills</h3>
+                <ul>
+                    {% for skill in extracted_skills %}
+                    <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="skills-list">
+                <h3>Required Skills</h3>
+                <ul>
+                    {% for skill in required_skills %}
+                    <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="skillMatchChart" data-match="{{ match_percentage }}"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Recommended Courses</h2>
+        {% if suggested_courses %}
+            {% for course in suggested_courses %}
+            <div class="course-card">
+                <h3>{{ course.title }}</h3>
+                <p class="course-provider"><strong>Provider:</strong> {{ course.provider }}</p>
+                <p>{{ course.description }}</p>
+                <a href="{{ course.url }}" target="_blank" class="button">Go to Course</a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No course suggestions available for the detected skills.</p>
+        {% endif %}
+    </div>
+{% endblock %}
