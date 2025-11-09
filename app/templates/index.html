@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Web App UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <div class="navbar-left">
+                <a href="#" class="logo">Product</a>
+                <nav>
+                    <a href="#" class="nav-link active">Home</a>
+                    <a href="#" class="nav-link">Features</a>
+                    <a href="#" class="nav-link">Pricing</a>
+                    <a href="#" class="nav-link">Docs</a>
+                </nav>
+            </div>
+            <div class="navbar-right">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Modern UI for Modern Applications</h1>
+            <p>A clean, elegant, and responsive UI kit inspired by the best.</p>
+        </section>
+
+        <section id="company-search" class="card">
+            <h2>Verify Company Legitimacy</h2>
+            <p>Enter a company name to check its authenticity in real-time.</p>
+            <form id="company-search-form" class="form-example">
+                <div class="form-group">
+                    <label for="company-name" class="sr-only">Company Name</label>
+                    <input type="text" id="company-name" name="company_name" placeholder="e.g., 'Innovate Inc.'" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Verify Company</button>
+            </form>
+            <div id="company-search-results" class="results-container" aria-live="polite"></div>
+        </section>
+
+        <section class="component-showcase">
+            <h2>Core Features</h2>
+
+            <!-- Job Scam Prediction Form -->
+            <div class="card">
+                <h3>Job Posting Scanner</h3>
+                <form action="/predict" method="POST" class="form-example">
+                    <div class="form-group">
+                        <label for="job_url">Job Posting URL</label>
+                        <input type="url" id="job_url" name="job_url" placeholder="https://example.com/job/123">
+                    </div>
+                    <div class="form-group">
+                        <label for="job_description">Or Paste Job Description</label>
+                        <textarea id="job_description" name="job_description" rows="5" placeholder="Enter the full job description here..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Scan Posting</button>
+                </form>
+                <!-- Display prediction results here -->
+                {% if prediction_result %}
+                    <div class="results-container success"><p>{{ prediction_result }}</p></div>
+                {% elif prediction_error %}
+                    <div class="results-container error"><p>{{ prediction_error }}</p></div>
+                {% endif %}
+            </div>
+
+            <!-- Resume Analysis Form -->
+            <div class="card">
+                <h3>Resume Skill Analyzer</h3>
+                <form action="/upload" method="POST" enctype="multipart/form-data" class="form-example">
+                    <div class="form-group">
+                        <label for="resume">Upload Your Resume</label>
+                        <input type="file" id="resume" name="resume" accept=".pdf,.docx,.txt" required>
+                    </div>
+                    <!-- This part would need dynamic population from the DB -->
+                     <div class="form-group">
+                        <label for="job_role">Select Target Job Role</label>
+                        <select id="job_role" name="job_role" required>
+                            <option value="1">Software Engineer</option>
+                            <option value="2">Data Scientist</option>
+                            <option value="3">Product Manager</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Analyze Resume</button>
+                </form>
+                 <!-- Display resume analysis results here -->
+                {% if resume_success %}
+                    <div class="results-container success"><p>{{ resume_success }}</p></div>
+                {% elif resume_error %}
+                    <div class="results-container error"><p>{{ resume_error }}</p></div>
+                {% endif %}
+            </div>
+
+            <div class="card">
+                <h3>Buttons (Sample)</h3>
+                <div class="button-group">
+                    <button class="btn btn-primary">Primary Action</button>
+                    <button class="btn btn-secondary">Secondary Action</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Form Elements</h3>
+                <form class="form-example">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
